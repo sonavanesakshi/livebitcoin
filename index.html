@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Live BTC App</title>
+    <style>
+        *{font-size: 50px;}
+        body{background-color: aqua;}
+    </style>
+    <script>
+        function rates()
+        {
+            event.preventDefault();
+            let USD=document.getElementById("USD");
+            let EUR=document.getElementById("EUR");
+            let GBP=document.getElementById("GBP");
+            let ans=document.getElementById("ans");
+            let url="https://api.coindesk.com/v1/bpi/currentprice.json";
+            fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                if(USD.checked)
+                ans.innerHTML="\u0024"+data.bpi.USD.rate;
+                else if(EUR.checked)
+                ans.innerHTML="\u20AC"+data.bpi.EUR.rate;
+                else
+                ans.innerHTML="\u00A3"+data.bpi.GBP.rate;
+            })
+            .catch(err => ans.innerHTML="issue"+err);
+        }
+    </script>
+</head>
+<body>
+    <center>
+        <h1>Live BTC App</h1>
+        <form onsubmit="rates()">
+        <input type="radio" name="d" id="USD"checked=true/>USD
+        <input type="radio" name="d" id="EUR"/>EUR
+        <input type="radio" name="d" id="GBP"/>GBP
+        <br><br>
+        <input type="submit" value="Get Rates"/>
+        </form>
+        <h1 id="ans"/>
+    </center>
+</body>
+</html>
